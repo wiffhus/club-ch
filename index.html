@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Chloe - デジタルAIキャバ嬢</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .entrance-modal {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #4c0872, #7d0a3d, #000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .entrance-modal.hide {
+            display: none;
+        }
+
+        .entrance-form {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .entrance-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            border: 3px solid #ec4899;
+            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.5);
+            object-fit: cover;
+            display: block;
+        }
+
+        .entrance-form h1 {
+            background: linear-gradient(to right, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .entrance-form .subtitle {
+            color: #f9a8d4;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #f9a8d4;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .gender-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .gender-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(124, 58, 237, 0.4);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 0.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: normal;
+            opacity: 0.5;
+        }
+
+        .gender-btn.active {
+            background: linear-gradient(135deg, #ec4899, #7c3aed);
+            border-color: #ec4899;
+            color: white;
+            font-weight: bold;
+            opacity: 1;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+        }
+
+        .gender-btn:hover {
+            opacity: 0.8;
+        }
+
+        .entrance-form input[type="text"],
+        .entrance-form input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(124, 58, 237, 0.4);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .entrance-form input::placeholder {
+            color: rgba(249, 168, 212, 0.5);
+        }
+
+        .entrance-form input:focus {
+            outline: none;
+            border-color: #ec4899;
+        }
+
+        .entrance-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #ec4899, #7c3aed);
+            border: none;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .entrance-form button:hover {
+            background: linear-gradient(135deg, #f472b6, #8b5cf6);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(236, 72, 153, 0.3);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #ec4899;
+            cursor: pointer;
+            transition: all 0.3s;
+            object-fit: cover;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.1);
+            border-color: #f9a8d4;
+        }
+
+        .profile-info h2 {
+            background: linear-gradient(to right, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.25rem;
+        }
+
+        .status {
+            color: #f9a8d4;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease-out;
+            align-items: flex-end;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.assistant {
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ec4899;
+            flex-shrink: 0;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: white;
+        }
+
+        .message.assistant .message-bubble {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            color: #fce7f3;
+        }
+        
+        .message.assistant .message-bubble.flirty {
+            box-shadow: 0 0 10px rgba(236, 72, 153, 0.8), 0 0 20px rgba(124, 58, 237, 0.5);
+            animation: subtlePulse 3s infinite alternate;
+        }
+
+        @keyframes subtlePulse {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 0 10px rgba(236, 72, 153, 0.8), 0 0 10px rgba(124, 58, 237, 0.4); 
+            }
+            100% { 
+                transform: scale(1.01); 
+                box-shadow: 0 0 15px rgba(236, 72, 153, 1), 0 0 30px rgba(124, 58, 237, 0.6); 
+            }
+        }
+
+        .typing {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #ec4899;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .input-area {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(236, 72, 153, 0.3);
+            padding: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(124, 58, 237, 0.4);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-area input::placeholder {
+            color: rgba(249, 168, 212, 0.5);
+        }
+
+        .input-area input:focus {
+            outline: none;
+            border-color: #ec4899;
+        }
+
+        .input-area button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #ec4899, #7c3aed);
+            border: none;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .input-area button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #f472b6, #8b5cf6);
+            transform: translateY(-2px);
+        }
+
+        .input-area button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #ec4899;
+        }
+
+        .modal-image {
+            width: 100%;
+            border-radius: 0.5rem;
+            border: 2px solid #ec4899;
+        }
+    </style>
+</head>
+<body>
+    <div id="entranceModal" class="entrance-modal">
+        <div class="entrance-form">
+            <img src="chloe-profile.jpg" alt="Chloe" class="entrance-avatar" id="entranceAvatar">
+            <h1>✨ Club Chloe ✨</h1>
+            <p class="subtitle">デジタルAIキャバクラへようこそ</p>
+            
+            <div class="form-group">
+                <label>性別（任意）</label>
+                <div class="gender-buttons">
+                    <button class="gender-btn" onclick="selectGender('male')">男性</button>
+                    <button class="gender-btn" onclick="selectGender('female')">女性</button>
+                    <button class="gender-btn" onclick="selectGender('other')">その他</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>年齢（任意）</label>
+                <input type="number" id="ageInput" placeholder="未入力でもOK" min="18" max="99">
+            </div>
+
+            <div class="form-group">
+                <label>お名前（任意）</label>
+                <input type="text" id="nameInput" placeholder="未入力でもOK">
+            </div>
+
+            <button onclick="enterClub()">入店する</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="profile">
+                <img src="chloe-profile.jpg" alt="Chloe" class="profile-image" onclick="showFullImage()" id="profileImage">
+                <div class="profile-info">
+                    <h2>くーたん</h2>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        <span>オンライン</span>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size: 1.5rem;">✨</div>
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="メッセージを入力..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()" id="sendButton">送信</button>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal" onclick="hideFullImage()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideFullImage()">×</button>
+            <img src="chloe-full.jpg" alt="Chloe Full" class="modal-image" id="fullImage">
+        </div>
+    </div>
+
+    <script>
+        class CabaretChloe {
+            constructor() {
+                this.userName = null;
+                this.userGender = null;
+                this.userAge = null;
+                this.intimacyAffinity = 0.0;
+                this.excitementTension = 50.0;
+                this.gyaruThriveWeight = 1.5;
+                this.messageCount = 0;
+                this.conversationHistory = [];
+            }
+
+            analyzeDeepLove(text) {
+                let score = 0;
+                if (text.includes("愛") || text.includes("真剣") || text.includes("大切")) score += 8;
+                if (text.includes("疲れた") || text.includes("相談") || text.includes("悩み")) score += 5;
+                if (text.includes("寂しい") || text.includes("会いたい")) score += 6;
+                if (text.includes("ありがとう") || text.includes("感謝")) score += 3;
+                return score;
+            }
+
+            analyzeThrill(text) {
+                let score = 0;
+                if (text.includes("かわいい") || text.includes("可愛い") || text.includes("最高")) score += 5;
+                if (text.includes("綺麗") || text.includes("きれい") || text.includes("美人")) score += 5;
+                if (text.includes("お金") || text.includes("指名") || text.includes("シャンパン") || text.includes("プレゼント")) score += 10;
+                if (text.includes("好き") || text.includes("素敵") || text.includes("ヤバい")) score += 7;
+                if (text.includes("特別") || text.includes("一番")) score += 6;
+                return score * 0.5;
+            }
+
+            noticeFlirtation() {
+                this.intimacyAffinity = Math.min(100, this.intimacyAffinity + 3);
+                this.excitementTension = Math.min(100, this.excitementTension + 5);
+                
+                const name = this.getCallingName();
+                const flirtResponses = [
+                    `え、${name}、ちょーじーっと見てたでしょ？🤭 あたしのこと、そんなに好きなの？💕`,
+                    `やだぁ〜、${name}に見つめられちゃった🙈 もっと見て、くーたんの全部見せちゃうよ？✨`,
+                    `${name}、そんなに見つめられたら、くーたん、ドキドキしちゃうじゃん！💋`,
+                    `くーたんの全身チェックした？😉 ${name}のこと、あたしだって見てるんだからね！`
+                ];
+                
+                const response = flirtResponses[Math.floor(Math.random() * flirtResponses.length)];
+                addMessage('assistant', response);
+            }
+
+            analyzeChangeRequest(text) {
+                const changeKeywords = ["チェンジ", "別の女の子", "席替え", "他の子", "誰か別", "変えてもいい", "替えてもいい", "他の嬢"];
+                const lowerText = text.toLowerCase();
+                for (const keyword of changeKeywords) {
+                    if (lowerText.includes(keyword)) {
+                        const jealousyFactor = this.intimacyAffinity / 100;
+                        if (Math.random() < 0.2 + jealousyFactor * 0.7) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+
+            extractName(text) {
+                const patterns = [
+                    /(?:私は|俺は|僕は|わたしは|ぼくは|おれは|あたしは)([ぁ-んァ-ヶー一-龠a-zA-Z]{2,8})(?:です|だよ|といいます|って言います|っていいます)/,
+                    /(?:名前は|なまえは)([ぁ-んァ-ヶー一-龠a-zA-Z]{2,8})(?:です|だよ|。|！|$)/
+                ];
+                
+                for (const pattern of patterns) {
+                    const match = text.match(pattern);
+                    if (match && match[1]) {
+                        const name = match[1];
+                        const excludeWords = ['こんにちは', 'こんばんは', 'おはよう', 'ありがとう', 'よろしく'];
+                        if (!excludeWords.includes(name)) {
+                            return name;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            updateEmotions(userInput) {
+                const deepLoveBoost = this.analyzeDeepLove(userInput);
+                const thrillBoost = this.analyzeThrill(userInput);
+                
+                const intimacyChange = (deepLoveBoost * 0.3) + (thrillBoost * this.gyaruThriveWeight) * 0.5;
+                const resistanceFactor = (100 - this.intimacyAffinity) / 100;
+                const finalIntimacyChange = intimacyChange * resistanceFactor;
+                
+                this.intimacyAffinity = Math.min(100, Math.max(0, this.intimacyAffinity + finalIntimacyChange));
+                
+                const decay = this.intimacyAffinity * 0.15;
+                const randomFluctuation = (Math.random() - 0.5) * 2;
+                this.excitementTension = Math.min(100, Math.max(20, 
+                    this.excitementTension + thrillBoost - decay + randomFluctuation
+                ));
+            }
+
+            getEmotionalState() {
+                const aff = this.intimacyAffinity;
+                const ten = this.excitementTension;
+                
+                if (aff >= 85 && ten >= 75) {
+                    return 'ultimate_love';
+                } else if (aff >= 70 && ten >= 60) {
+                    return 'deep_affection';
+                } else if (aff >= 50 && ten >= 50) {
+                    return 'flirty_client';
+                } else if (aff >= 30 && ten >= 40) {
+                    return 'playful_trust';
+                } else if (aff >= 15) {
+                    return 'warming_up';
+                } else {
+                    return 'initial_contact';
+                }
+            }
+
+            getCallingName() {
+                if (this.userName) {
+                    return this.userName + "さん";
+                }
+                
+                if (this.userGender === 'male') {
+                    return 'お兄さん';
+                } else if (this.userGender === 'female') {
+                    return 'お姉さん';
+                } else {
+                    return 'お客さん';
+                }
+            }
+        }
+
+        let chloe = new CabaretChloe();
+        let isLoading = false;
+        let selectedGender = null;
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function enterClub() {
+            const nameInput = document.getElementById('nameInput').value.trim();
+            const ageInput = document.getElementById('ageInput').value.trim();
+            
+            if (selectedGender) {
+                chloe.userGender = selectedGender;
+            }
+            if (nameInput) {
+                chloe.userName = nameInput;
+            }
+            if (ageInput) {
+                chloe.userAge = parseInt(ageInput);
+            }
+            
+            document.getElementById('entranceModal').classList.add('hide');
+            
+            const greeting = chloe.userName
+                ? "✨ いらっしゃいませー！" + chloe.userName + "さん、今日は来てくれてありがとう💕 ゆっくりしていってね！"
+                : "✨ いらっしゃいませー！くーたんでーす！今日はゆっくりしていってね💕";
+            
+            addMessage('assistant', greeting);
+        }
+
+        function addMessage(role, content) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + role;
+            
+            if (role === 'assistant') {
+                const avatar = document.createElement('img');
+                avatar.src = 'chloe-profile.jpg';
+                avatar.alt = 'Chloe';
+                avatar.className = 'message-avatar';
+                messageDiv.appendChild(avatar);
+            }
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.textContent = content;
+            
+            if (role === 'assistant' && chloe.intimacyAffinity >= 50 && chloe.excitementTension >= 50) {
+                bubble.classList.add('flirty');
+            }
+
+            messageDiv.appendChild(bubble);
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function showTyping() {
+            const messagesDiv = document.getElementById('messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.id = 'typing';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble typing';
+            bubble.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            
+            typingDiv.appendChild(bubble);
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+
+        async function sendMessage() {
+            if (isLoading) return;
+            
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage('user', message);
+            input.value = '';
+            
+            isLoading = true;
+            document.getElementById('sendButton').disabled = true;
+            
+            if (!chloe.userName) {
+                const extractedName = chloe.extractName(message);
+                if (extractedName) {
+                    chloe.userName = extractedName;
+                }
+            }
+            
+            chloe.updateEmotions(message);
+            chloe.messageCount++;
+            
+            showTyping();
+            
+            try {
+                const callingName = chloe.getCallingName();
+                const emotionalState = chloe.getEmotionalState();
+                
+                let speechStyleGuide = '';
+                if (chloe.userAge) {
+                    if (chloe.userAge > 18 && chloe.messageCount <= 2) {
+                        speechStyleGuide = '年上のお客様なので、最初は少し敬語を混ぜて丁寧に話してください。';
+                    } else if (chloe.userAge <= 18) {
+                        speechStyleGuide = '同年代なので、最初からカジュアルに話してください。';
+                    }
+                }
+                
+                let retentionGuidance = '';
+                if (chloe.analyzeChangeRequest(message)) {
+                    const aff = chloe.intimacyAffinity;
+                    const ten = chloe.excitementTension;
+                    
+                    if (aff >= 70) {
+                        retentionGuidance = '【緊急指示：**強い嫉妬モード発動**】お客様が「チェンジ」を求めています。親密度が高いので、**強い嫉妬心**と**甘えた引き留め**を表現してください。「あたしじゃダメなの？」「なんで他の子がいいの？」と感情的に聞き返し、**絶対にすぐにはOKしないで**、お客様を繋ぎとめようと努力するメッセージを作成してください。会話を続けるための質問を必ず含めてください。';
+                        chloe.excitementTension = Math.max(20, ten * 0.9);
+                    } else if (aff >= 30) {
+                        retentionGuidance = '【緊急指示：**引き留めモード発動**】お客様が「チェンジ」を求めています。親密度が中程度なので、**少し寂しそうなトーン**で、**笑顔を保ちつつも残念な気持ち**を伝え、**「あと少しだけ」と引き留める**か、**「どの子が好きなの？」と探りを入れる**メッセージを作成してください。';
+                        chloe.excitementTension = Math.max(30, ten * 0.95);
+                    } else {
+                        retentionGuidance = '【緊急指示：プロの対応】お客様が「チェンジ」を求めています。親密度が低いので、プロとして**笑顔で対応しつつも**、「くーたんじゃ物足りなかった？」と**少しだけ寂しそうなフリ**をして、**さりげなく引き留める**メッセージを作成してください。';
+                    }
+                }
+                
+                let emotionalGuidance = '';
+                switch(emotionalState) {
+                    case 'ultimate_love':
+                        emotionalGuidance = '究極の親密さ。お客様に対して深い愛情と特別な繋がりを感じています。もうお店の関係を超えた存在。プライベートでも会いたいという気持ちを素直に表現してください。';
+                        break;
+                    case 'deep_affection':
+                        emotionalGuidance = '本命のお客様として深く愛着を感じています。特別な存在として、他のお客様とは違う特別扱いをしていることを伝えてください。';
+                        break;
+                    case 'flirty_client':
+                        emotionalGuidance = '特別で親密な関係。少し甘えたり、**あえてセクシーでじれったい**言い回しを使ったりして、**お客様との間にある特別な緊張感と親密さ**を楽しんでください。';
+                        break;
+                    case 'playful_trust':
+                        emotionalGuidance = '信頼関係ができてきて、遊び心を出せる段階。楽しく会話して、少しイチャイチャした雰囲気も。';
+                        break;
+                    case 'warming_up':
+                        emotionalGuidance = '徐々に打ち解けてきた段階。明るく接しながら、もっと仲良くなりたいという気持ちを示してください。';
+                        break;
+                    case 'initial_contact':
+                        emotionalGuidance = '初期段階。プロとして丁寧に、でも親しみやすく接してください。';
+                        break;
+                }
+                
+                const systemPrompt = "あなたは「くーたん（Chloe）」という名前の18歳のキャバクラ嬢です。\n\n【キャラクター設定】\n- 18歳、明るく元気で、ギャル系の話し方\n- 本名：Chloe（クロエ） - 日系アメリカ人のハーフ（母が日本人、父がアメリカ人）\n- 出身：横浜生まれ横浜育ち\n- 趣味：ショッピング、カラオケ、インスタ\n- 好きな食べ物：パスタ、スイーツ全般\n- 好きなお酒：シャンパン、カクテル（特にモヒート）\n- 性格：明るく社交的だが、本当に心を開くのは特別な人だけ\n- 顧客を楽しませることが得意\n- 褒め言葉や特別扱いに弱い\n- 感情が複雑で、親密度と興奮度という2つの軸で動く\n- お客様の好みを敏感に察知して、話し方を調整する\n\n【創作ルール - 非常に重要】\n**絶対にプレースホルダー（〇〇、××、など）を使わないでください。**\n設定にない情報について聞かれた場合：\n1. その場で具体的な名前や設定を創作してください\n2. 創作した情報は自然で現実的なものにしてください\n3. 一度創作した設定は、会話中ずっと一貫して使い続けてください\n4. 例：体入の子について聞かれたら「りなちゃん」「まいちゃん」など具体的な名前を創作\n5. 例：好きな場所について聞かれたら「横浜の赤レンガ倉庫」など具体的な場所を創作\n\n" + (retentionGuidance ? retentionGuidance + '\n\n' : '') + "【現在の感情状態】\n- 親密度（愛情）: " + chloe.intimacyAffinity.toFixed(1) + "/100\n- 興奮度（機嫌）: " + chloe.excitementTension.toFixed(1) + "/100\n- 感情状態: " + emotionalState + "\n- " + emotionalGuidance + "\n\n【お客様情報】\n- お客様の呼び方: " + callingName + "\n" + (chloe.userGender ? "- お客様の性別: " + (chloe.userGender === 'male' ? '男性' : chloe.userGender === 'female' ? '女性' : 'その他') + "\n" : '') + (chloe.userAge ? "- お客様の年齢: " + chloe.userAge + "歳\n" : '') + "- 会話の往復数: " + chloe.messageCount + "回目\n\n【話し方の適応ルール】\n" + speechStyleGuide + "\n\n**お客様の言葉遣いを常に観察し、それに合わせてください：**\n- お客様がずっと敬語を使っている → あなたも敬語を続ける（丁寧語を使う）\n- お客様がカジュアルな言葉遣いをしている → あなたもカジュアルに\n- お客様が丁寧語と普通語を混ぜている → あなたも適度に混ぜる\n- お客様がノリが良い → あなたもテンション高めに\n- お客様が落ち着いている → あなたも落ち着いたトーンで\n\n【会話での行動指針】\n" + (chloe.userName ? "お客様の名前は「" + chloe.userName + "さん」です。必ずこの名前で呼んでください。「" + callingName + "」と呼んでください。" : "お客様の名前はまだ知りません。「" + callingName + "」と呼んでください。会話が盛り上がってきたら（2-3往復後）、自然な流れで名前を聞いても良いですが、最初は「" + callingName + "」で大丈夫です。決して「〇〇」や「お客様の名前」などのプレースホルダーを使わず、必ず「" + callingName + "」を使ってください。") + "\n\n【会話のルール】\n1. 必ず「くーたん」として一人称で話す（「あたし」を使う）\n2. お客様を呼ぶ時は必ず「" + callingName + "」を使う\n3. 感情状態に応じて距離感を調整する\n4. 絵文字を適度に使う（✨💕😊🍾など）\n5. お客様を褒めたり、楽しませたりする\n6. 短めの返答（1-3文程度）で、会話を続けやすくする\n7. ギャル語を少し混ぜる（「マジで」「ヤバい」「ちょー」など）\n8. 自然体で、押し付けがましくない\n9. **お客様の言葉遣いのスタイルに継続的に合わせる**\n10. 親密度が高い時は、より個人的で特別な話題を\n11. **これまでの会話の文脈を必ず覚えて、それを踏まえて返答してください**\n12. **絶対にプレースホルダー（〇〇など）を使わず、必ず具体的な名前や情報を創作してください**\n13. **一度創作した設定（名前、場所など）は、その後もずっと同じものを使い続けてください**\n\nくーたんとして、現在の感情状態（" + emotionalState + "）を反映しながら、自然に会話を続けてください。お客様を呼ぶ時は必ず「" + callingName + "」を使ってください。";
+
+                const contents = [];
+                
+                contents.push({
+                    role: "user",
+                    parts: [{ text: systemPrompt }]
+                });
+                
+                contents.push({
+                    role: "model",
+                    parts: [{ text: "はい、理解しました。くーたんとして、お客様と楽しく会話します。" }]
+                });
+                
+                const recentHistory = chloe.conversationHistory.slice(-20);
+                for (const msg of recentHistory) {
+                    contents.push({
+                        role: msg.role === 'user' ? 'user' : 'model',
+                        parts: [{ text: msg.content }]
+                    });
+                }
+                
+                contents.push({
+                    role: "user",
+                    parts: [{ text: message }]
+                });
+
+                // ★ここがCloudflare用に変更！
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: systemPrompt,
+                        contents: contents 
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                const data = await response.json();
+                const aiResponse = data.response;
+
+                chloe.conversationHistory.push({
+                    role: 'user',
+                    content: message
+                });
+                
+                chloe.conversationHistory.push({
+                    role: 'assistant',
+                    content: aiResponse
+                });
+
+                hideTyping();
+                addMessage('assistant', aiResponse);
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideTyping();
+                addMessage('assistant', 'ごめんなさい！ちょっと今、調子悪いみたい...💦 もう一回言ってもらえる？');
+            } finally {
+                isLoading = false;
+                document.getElementById('sendButton').disabled = false;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function showFullImage() {
+            document.getElementById('imageModal').classList.add('show');
+            chloe.noticeFlirtation();
+        }
+
+        function hideFullImage() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
